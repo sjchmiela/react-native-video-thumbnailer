@@ -347,7 +347,7 @@
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		80980BB4EEE947ECBF16DB5B /* AJVideoThumbnailer.xcodeproj */ = {isa = PBXFileReference; name = "AJVideoThumbnailer.xcodeproj"; path = "../node_modules/react-native-video-thumbnailer/ios/AJVideoThumbnailer.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		80980BB4EEE947ECBF16DB5B /* AJVideoThumbnailer.xcodeproj */ = {isa = PBXFileReference; name = "AJVideoThumbnailer.xcodeproj"; path = "../../ios/AJVideoThumbnailer.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		E8B36ADE23C64C6E860F0666 /* libAJVideoThumbnailer.a */ = {isa = PBXFileReference; name = "libAJVideoThumbnailer.a"; path = "libAJVideoThumbnailer.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
@@ -1199,7 +1199,7 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-video-thumbnailer/ios",
+					"$(SRCROOT)/../../ios",
 				);
 			};
 			name = Debug;
@@ -1225,7 +1225,7 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-video-thumbnailer/ios",
+					"$(SRCROOT)/../../ios",
 				);
 			};
 			name = Release;
@@ -1248,7 +1248,7 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-video-thumbnailer/ios",
+					"$(SRCROOT)/../../ios",
 				);
 			};
 			name = Debug;
@@ -1270,7 +1270,7 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-video-thumbnailer/ios",
+					"$(SRCROOT)/../../ios",
 				);
 			};
 			name = Release;
@@ -1304,7 +1304,7 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-video-thumbnailer/ios",
+					"$(SRCROOT)/../../ios",
 				);
 			};
 			name = Debug;
@@ -1338,7 +1338,7 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-video-thumbnailer/ios",
+					"$(SRCROOT)/../../ios",
 				);
 			};
 			name = Release;
@@ -1371,7 +1371,7 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-video-thumbnailer/ios",
+					"$(SRCROOT)/../../ios",
 				);
 			};
 			name = Debug;
@@ -1404,7 +1404,7 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-video-thumbnailer/ios",
+					"$(SRCROOT)/../../ios",
 				);
 			};
 			name = Release;
