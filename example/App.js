@@ -15,6 +15,8 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
+  state = {};
+
   async componentDidMount() {
     const { uri } = await generateThumbnailAsync();
     this.setState({ uri });
@@ -26,21 +28,10 @@ export default class App extends Component<Props> {
         <Text style={styles.welcome}>Welcome to React Native!</Text>
         <Text style={styles.instructions}>To get started, edit App.js</Text>
         <Text style={styles.instructions}>{instructions}</Text>
-        {
-          // STEP 4
-          // Use this component's state to show an image from the URI saved in state
-          // in step 3.
-          //
-          // Remember that Image component without styles will collapse by default
-          // so you'll need to add some at least static width and height, better yet some static height
-          // and `alignSelf: 'stretch'`.
-          //
-          // You may also need to deal with `null is not an object (evaluating this.state…)`. It will happen
-          // because the default initial value for state is null. To set an initial value for state
-          // either add a constructor (https://reactjs.org/docs/state-and-lifecycle.html#adding-local-state-to-a-class)
-          // or add `state = {}` in class scope (Babel configuration includes transform-class-properties plugin,
-          // https://babeljs.io/docs/en/next/babel-plugin-proposal-class-properties).
-        }
+        <Image
+          source={{ uri: this.state.uri }}
+          style={{ height: 300, alignSelf: "stretch" }}
+        />
       </View>
     );
   }
