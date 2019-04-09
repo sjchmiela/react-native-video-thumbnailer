@@ -15,11 +15,10 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
-  // STEP 3
-  // Create a function that will get called every time the app restarts
-  // (I like to use componentDidMount lifecycle method for this)
-  // which will call the generateThumbnailAsync method, await for its result
-  // and then save the result.uri to state.
+  async componentDidMount() {
+    const { uri } = await generateThumbnailAsync();
+    this.setState({ uri });
+  }
 
   render() {
     return (
