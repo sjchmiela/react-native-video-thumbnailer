@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, Text, View, Image } from "react-native";
 
-// STEP 2
-// Create a mock generateThumbnailAsync function that will return a Promise
-// resolving to { uri, width, height } of `./assets/sample_thumbnail.jpg`.
-// To get such an object, use Image.resolveAssetSource method.
-// https://facebook.github.io/react-native/docs/image#resolveassetsource
+const generateThumbnailAsync = () =>
+  Promise.resolve(
+    Image.resolveAssetSource(require("./assets/sample_thumbnail.jpg"))
+  );
 
 const instructions = Platform.select({
   ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",
