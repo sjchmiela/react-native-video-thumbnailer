@@ -40,13 +40,6 @@ export default class App extends Component<Props> {
     );
     this.setState({ uri: result.uri });
 
-    // STEP 16
-    // Now you should be able tinker around with the first argument to the
-    // generateThumbnailAsync method — passing null, "imnotaurl" or
-    // Image.resolveAssetSource(require("./assets/sample_thumbnail.jpg")).uri
-    // should all not show an error, but rather a warning with a "Unhandled Promise rejection"
-    // with a descriptive message. Hooray for clear error messages!
-
     // STEP 18
     // Change the second argument to the generateThumbnailAsync to an object containing
     // an object under maximumSize key that will specify some width or height constraints!
