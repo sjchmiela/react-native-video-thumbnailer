@@ -1,5 +1,7 @@
 #import "AJVideoThumbnailer.h"
 
+#import <AVKit/AVKit.h>
+
 @implementation AJVideoThumbnailer
 
 RCT_EXPORT_MODULE()
@@ -16,25 +18,20 @@ RCT_EXPORT_METHOD(sampleMethod:(NSString *)stringArgument numberParameter:(nonnu
 
 RCT_EXPORT_METHOD(generateThumbnailAsync:(NSString *)urlString options:(NSDictionary *)options resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 {
+  NSURL *sourceURL = [[NSURL alloc] initWithString:urlString];
+  AVAsset *asset = [AVAsset assetWithURL:sourceURL];
+  AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc]initWithAsset:asset];
+  CMTime time = CMTimeMake(1, 1);
+  CGImageRef imageRef = [imageGenerator copyCGImageAtTime:time actualTime:NULL error:NULL];
+  UIImage *thumbnail = [UIImage imageWithCGImage:imageRef];
+  CGImageRelease(imageRef);  // CGImageRef won't be released by ARC
+
   resolve(@{
             @"uri": [NSNull null],
             @"width": @(0),
             @"height": @(0)
             });
 }
-
-// STEP 10
-// The JS-native-JS communication works, so let's actually try implementing the thumbnail generation.
-// We aggregated our resources when we were designing the API, the StackOverflow answer we were going to
-// inspire ourselves with was https://stackoverflow.com/questions/7501413/create-thumbnail-from-a-video-url-in-iphone-sdk/11804061#11804061.
-// Copy it over the resolve call inside the method. Xcode should show multiple errors of "Use of undeclared identifier".
-// This happens due to missing declarations for the classes we use. To import them, go to the top of the file
-// and add import of <AVKit/AVKit.h> file.
-//
-// The code will still contain an error — "Use of undeclared identifier 'sourceURL'". To fix it,
-// we'll need to convert the URL we get from JS to an object of class NSURL. We'll use
-// initWithString:URLString initializer. Usually creating new objects in Objective-C works like:
-// [[ClassName alloc] init], [[ClassName alloc] initWithSomething:…] or [[ClassName alloc] somethingNewWith:…].
 
 // STEP 11
 // Although our project would compile now, the thumbnail we generated is ignored (as Xcode suggests).
