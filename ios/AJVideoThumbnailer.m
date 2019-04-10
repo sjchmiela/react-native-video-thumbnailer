@@ -9,31 +9,6 @@ RCT_EXPORT_MODULE()
   return dispatch_queue_create("edu.appjs.videothumbnailer.AJVideoThumbnailer", DISPATCH_QUEUE_CONCURRENT);
 }
 
-// STEP 3
-// The following couple of lines of code export a method to JS.
-// RCT_EXPORT_METHOD is another C macro which takes in a method signature.
-// The name of the method is the first string up to the first colon (here: sampleMethod).
-//
-// Another macro that one could use to expose a method to JS is RCT_REMAP_METHOD,
-// which expects two arguments: a JS name of the method and then a signature.
-// In our case RCT_EXPORT_METHOD(sampleMethod:…) has the same effect as if we wrote
-// RCT_REMAP_METHOD(sampleMethod, sampleMethod:…).
-//
-// Another macro is RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD (and a corresponding RCT_REMAP_BLOCKING_…)
-// which export a method that is synchronously executed on the JS thread. Probably you won't
-// need this often and do note that using such methods may introduce bugs you wouldn't expect
-// (see warning in RN codebase https://github.com/facebook/react-native/blob/ff66600224e78fec5d0e902f8a035b78ed31a961/React/Base/RCTBridgeModule.h#L181-L184
-// ).
-//
-// By default, calling a native method would return undefined and the method would just run.
-// To return some result to JS you would have to accept a callback as an argument and then
-// call this callback with the result. (More on other types of native methods later).
-//
-// With all this knowledge we can see now that the method below exposes
-// a `sampleMethod` function which expects three arguments: a string, a number and a function
-// and will be run on the queue we specified in methodQueue function in step 2.
-//
-// Read more at https://github.com/facebook/react-native/blob/ff66600224e78fec5d0e902f8a035b78ed31a961/React/Base/RCTBridgeModule.h#L135-L152
 RCT_EXPORT_METHOD(sampleMethod:(NSString *)stringArgument numberParameter:(nonnull NSNumber *)numberArgument callback:(RCTResponseSenderBlock)callback)
 {
     // TODO: Implement
