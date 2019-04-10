@@ -31,6 +31,13 @@ RCT_EXPORT_METHOD(generateThumbnailAsync:(NSString *)urlString options:(NSDictio
 
   AVAsset *asset = [AVAsset assetWithURL:sourceURL];
   AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc]initWithAsset:asset];
+  if (options && [options[@"maximumSize"] isKindOfClass:[NSDictionary class]]) {
+    NSNumber *width = [options[@"maximumSize"][@"width"] isKindOfClass:[NSNumber class]] ? options[@"maximumSize"][@"width"] : @(0);
+    NSNumber *height = [options[@"maximumSize"][@"height"] isKindOfClass:[NSNumber class]] ? options[@"maximumSize"][@"height"] : @(0);
+
+    CGSize maximumSize = CGSizeMake([width doubleValue], [height doubleValue]);
+    imageGenerator.maximumSize = maximumSize;
+  }
   CMTime time = CMTimeMake(1, 1);
   NSError *error;
   CGImageRef imageRef = [imageGenerator copyCGImageAtTime:time actualTime:NULL error:&error];
@@ -59,17 +66,6 @@ RCT_EXPORT_METHOD(generateThumbnailAsync:(NSString *)urlString options:(NSDictio
             @"height": @(thumbnail.size.height)
             });
 }
-
-// STEP 17
-// Let's handle maximumSize now. It will be passed as an NSDictionary under @"maximumSize" key
-// in options argument. We should only set the maximum size if the object is present in the dictionary.
-// 1. Write an if statement that will only succeed if there's a non-nil value under @"maximumSize" key
-//    in the options dictionary.
-// 2. Use CGSizeMake function to create a CGSize struct out of values under width and height keys.
-//    Note that since there are no primitive values allowed in NSDictionary, you'll need to
-//    first fetch the value (which hopefully will be an NSNumber) and then cast it to double (aka CGFloat)
-//    using doubleValue method.
-// 3. Bonus points for checking whether the value under given key is an NSNumber and otherwise using 0.
 
 // STEP 19
 // Last thing missing is the time. It would be passed in the options dictionary, under @"timeMs" key.
