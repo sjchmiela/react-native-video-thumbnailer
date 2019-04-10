@@ -26,26 +26,29 @@ RCT_EXPORT_METHOD(generateThumbnailAsync:(NSString *)urlString options:(NSDictio
   UIImage *thumbnail = [UIImage imageWithCGImage:imageRef];
   CGImageRelease(imageRef);  // CGImageRef won't be released by ARC
 
+  NSData *imageData = UIImagePNGRepresentation(thumbnail);
+
+  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+  NSString *documentsDirectory = [paths objectAtIndex:0];
+
+  NSString *imagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", [[NSUUID UUID] UUIDString]]];
+
+  NSLog(@"pre writing to file");
+  if (![imageData writeToFile:imagePath atomically:NO])
+  {
+    NSLog(@"Failed to cache image data to disk");
+  }
+  else
+  {
+    NSLog(@"the cachedImagedPath is %@",imagePath);
+  }
+
   resolve(@{
-            @"uri": [NSNull null],
+            @"uri": imagePath,
             @"width": @(thumbnail.size.width),
             @"height": @(thumbnail.size.height)
             });
 }
-
-// STEP 13
-// Width and height are set, now let's take care of the last piece — the uri.
-// To be able to provide the developer with some URI we first have to save the image to the filesystem.
-// Searching on how to do this, eg. "save image to file system ios" renders eg. this result:
-// https://stackoverflow.com/a/14532028/1123156
-// This is a good piece of code, but we'll need to modify it a little bit.
-// 1. We won't save the image to documents directory, but to caches directory — the developer is responsible
-//    for moving the image from the cache to some other place.
-//    (Instead of NSDocumentDirectory, we'll use NSCachesDirectory)
-// 2. We'll use UUID for filenames so that we can handle a case where a user generates thumbnails in batches.
-//    (Instead of @"cached" we'll use [[NSUUID UUID] UUIDString])
-// After applying these changes to the copied code, make sure to return the imagePath as the value under @"uri"
-// in the resolve call. After rebuilding native code the app should show some non-null URL in the warning.
 
 // STEP 15
 // If we'd pass an invalid URI to the method call the app would show an error (which would crash the app
