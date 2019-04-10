@@ -35,17 +35,10 @@ export default class App extends Component<Props> {
     );
 
     const result = await NativeModules.AJVideoThumbnailer.generateThumbnailAsync(
-      "uriToBe",
+      Image.resolveAssetSource(require("./assets/sample.mov")).uri,
       {}
     );
     console.warn(result);
-
-    // STEP 12
-    // The app may warn with width == heigth == 0 or even error now!
-    // This is because we didn't provide a valid URL to a movie as the first
-    // argument. To grab a URI to some movie, use Image.resolveAssetSource(module).uri.
-    // After reloading the JS bundle, the app should show a warning with proper width and height
-    // set — 640 and 480.
 
     // STEP 14
     // Instead of warning the result, let's try updating the state with the new URI!
