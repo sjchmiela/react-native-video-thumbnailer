@@ -38,7 +38,12 @@ RCT_EXPORT_METHOD(generateThumbnailAsync:(NSString *)urlString options:(NSDictio
     CGSize maximumSize = CGSizeMake([width doubleValue], [height doubleValue]);
     imageGenerator.maximumSize = maximumSize;
   }
+
   CMTime time = CMTimeMake(1, 1);
+  if (options && [options[@"time"] isKindOfClass:[NSNumber class]]) {
+    time = CMTimeMake([options[@"time"] doubleValue], 1000);
+  }
+
   NSError *error;
   CGImageRef imageRef = [imageGenerator copyCGImageAtTime:time actualTime:NULL error:&error];
   if (error) {
@@ -66,15 +71,6 @@ RCT_EXPORT_METHOD(generateThumbnailAsync:(NSString *)urlString options:(NSDictio
             @"height": @(thumbnail.size.height)
             });
 }
-
-// STEP 19
-// Last thing missing is the time. It would be passed in the options dictionary, under @"timeMs" key.
-// Similarly to width and height, it will be an NSNumber and we'll need to convert it, but this time to CMTime.
-// CMTime is a wrapper type that allows iOS to represent a fraction of a second. You can create it with more than one function,
-// here I would use CMTimeMake(value, timescale). To represent a number of milliseconds, we'll use
-// CMTimeMake(numberOfMs, howManyMsAreInASecond).
-//
-// Similarly to maximumSize, write an if and then an implementation that will update the time variable, if applicable.
 
 // STEP 21
 // It looks like for similar values, generateThumbnailAsync returns exactly the same image.
