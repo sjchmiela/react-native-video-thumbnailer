@@ -34,16 +34,11 @@ export default class App extends Component<Props> {
       console.warn
     );
 
-    // STEP 9
-    // Now call the newly created generateThumbnailAsync method and
-    // console.warn the result.
-    //
-    // Remember you'll need to pass in two arguments: a string and an
-    // object (which will get converted to NSDictionary) and that the method
-    // call will return a Promise, so you'll need to await it to get the result.
-    //
-    // You should see the {"uri":null,"width":0,"height":0} warning in the app
-    // after rebuilding the native code!
+    const result = await NativeModules.AJVideoThumbnailer.generateThumbnailAsync(
+      "uriToBe",
+      {}
+    );
+    console.warn(result);
 
     // STEP 12
     // The app may warn with width == heigth == 0 or even error now!
