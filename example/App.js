@@ -36,16 +36,9 @@ export default class App extends Component<Props> {
 
     const result = await NativeModules.AJVideoThumbnailer.generateThumbnailAsync(
       Image.resolveAssetSource(require("./assets/sample.mov")).uri,
-      {}
+      { maximumSize: { width: 20 } }
     );
     this.setState({ uri: result.uri });
-
-    // STEP 18
-    // Change the second argument to the generateThumbnailAsync to an object containing
-    // an object under maximumSize key that will specify some width or height constraints!
-    // If you set maximum width to 20 you should notice the difference in the image.
-    // If you haven't deleted the console.warn(result), you can also inspect the warning
-    // to verify whether the size returned is lower in both dimensions than requested.
 
     // STEP 20
     // Try changing the options dictionary to include a value for `timeMs` key.
