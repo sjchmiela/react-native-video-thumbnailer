@@ -16,19 +16,12 @@ RCT_EXPORT_METHOD(sampleMethod:(NSString *)stringArgument numberParameter:(nonnu
 
 RCT_EXPORT_METHOD(generateThumbnailAsync:(NSString *)urlString options:(NSDictionary *)options resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 {
-
+  resolve(@{
+            @"uri": [NSNull null],
+            @"width": @(0),
+            @"height": @(0)
+            });
 }
-
-// STEP 8
-// Inside the method, resolve the promise (i. e. call the resolve block) with an object { uri: null, width: 0, height: 0 }.
-//
-// Note that in Objective-C a shorthand to create a dictionary is @{ [key]: [value] }. Moreover,
-// both keys and values put into the dictionary have to be pointers to objects, so we can't put a simple
-// int as the value — it'll have to be an NSNumber *. A shorthand to creating an NSNumber out of a static value
-// is @(value), eg. @(42).
-//
-// To pass `null` inside a dictionary, use [NSNull null] which is a pointer to a null object. More info
-// on the differences between nil/null/NSNull can be found here — https://nshipster.com/nil/.
 
 // STEP 10
 // The JS-native-JS communication works, so let's actually try implementing the thumbnail generation.
