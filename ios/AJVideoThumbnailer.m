@@ -18,11 +18,26 @@ RCT_EXPORT_METHOD(sampleMethod:(NSString *)stringArgument numberParameter:(nonnu
 
 RCT_EXPORT_METHOD(generateThumbnailAsync:(NSString *)urlString options:(NSDictionary *)options resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 {
+  if (!urlString) {
+    reject(@"E_EMPTY_ARG", @"You have to provide URL string from which to create a thumbnail.", nil);
+    return;
+  }
+
   NSURL *sourceURL = [[NSURL alloc] initWithString:urlString];
+  if (!sourceURL) {
+    reject(@"E_PARSE_ERROR", @"Provided URL string could not be parsed as a URL.", nil);
+    return;
+  }
+
   AVAsset *asset = [AVAsset assetWithURL:sourceURL];
   AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc]initWithAsset:asset];
   CMTime time = CMTimeMake(1, 1);
-  CGImageRef imageRef = [imageGenerator copyCGImageAtTime:time actualTime:NULL error:NULL];
+  NSError *error;
+  CGImageRef imageRef = [imageGenerator copyCGImageAtTime:time actualTime:NULL error:&error];
+  if (error) {
+    reject(@"E_THUM_FAIL", error.localizedFailureReason, error);
+    return;
+  }
   UIImage *thumbnail = [UIImage imageWithCGImage:imageRef];
   CGImageRelease(imageRef);  // CGImageRef won't be released by ARC
 
@@ -33,14 +48,9 @@ RCT_EXPORT_METHOD(generateThumbnailAsync:(NSString *)urlString options:(NSDictio
 
   NSString *imagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", [[NSUUID UUID] UUIDString]]];
 
-  NSLog(@"pre writing to file");
-  if (![imageData writeToFile:imagePath atomically:NO])
-  {
-    NSLog(@"Failed to cache image data to disk");
-  }
-  else
-  {
-    NSLog(@"the cachedImagedPath is %@",imagePath);
+  if (![imageData writeToFile:imagePath atomically:NO]) {
+    reject(@"E_FS_WRITE", @"Could not save the thumbnail to the file system", nil);
+    return;
   }
 
   resolve(@{
@@ -49,30 +59,6 @@ RCT_EXPORT_METHOD(generateThumbnailAsync:(NSString *)urlString options:(NSDictio
             @"height": @(thumbnail.size.height)
             });
 }
-
-// STEP 15
-// If we'd pass an invalid URI to the method call the app would show an error (which would crash the app
-// in production). What if we could handle these errors and reject the Promise so the developer can somehow
-// act on it?
-//
-// There are several places where we could use some assertions.
-// 1. Provided URL string may be nil (null).
-// 2. Provided URL string may not be convertible to NSURL.
-// 3. Generating the thumbnail may fail.
-// 4. Saving the image to the file system may fail.
-// Cases 1, 2 and 4 are more-or-less safe to handle. We just have to check whether a value is truthy
-// and reject-and-return otherwise. (Note that reject block expects three arguments:
-// the error code, the error message and an optional NSError *).
-// For example a check for 2. would look like:
-// if (!sourceUrl) {
-//   reject(@"E_PARSE_ERROR", @"Provided URL string could not be parsed as a URL", nil);
-//   return;
-// }
-//
-// To know about an error in case 3, we'll have to first pass a pointer to a pointer to NSError
-// so it can be filled with a pointer to the error if an error occurs.
-//
-// If in doubt, always remember you've got spoilers in the README!
 
 // STEP 17
 // Let's handle maximumSize now. It will be passed as an NSDictionary under @"maximumSize" key
