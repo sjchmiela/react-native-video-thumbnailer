@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+// STEP 5
+// Import NativeModules from react-native.
 import { Platform, StyleSheet, Text, View, Image } from "react-native";
 
 const generateThumbnailAsync = () =>
@@ -20,6 +22,58 @@ export default class App extends Component<Props> {
   async componentDidMount() {
     const { uri } = await generateThumbnailAsync();
     this.setState({ uri });
+    // STEP 6
+    // Call the sampleMethod method on our native module.
+    // As the third argument, pass in a function
+    // that will log the arguments. I would use console.warn,
+    // since the result will be immediately visible on the phone.
+    //
+    // Calling native methods looks like:
+    // NativeModules.ModuleName.methodName(arguments)
+    // `ModuleName` comes from the RCT_EXPORT_MODULE macro we looked
+    // at in step 1.
+    //
+    // A warning with "Hello from the native side!" should be visible
+    // on the phone.
+
+    // STEP 9
+    // Now call the newly created generateThumbnailAsync method and
+    // console.warn the result.
+    //
+    // Remember you'll need to pass in two arguments: a string and an
+    // object (which will get converted to NSDictionary) and that the method
+    // call will return a Promise, so you'll need to await it to get the result.
+    //
+    // You should see the {"uri":null,"width":0,"height":0} warning in the app
+    // after rebuilding the native code!
+
+    // STEP 12
+    // The app may warn with width == heigth == 0 or even error now!
+    // This is because we didn't provide a valid URL to a movie as the first
+    // argument. To grab a URI to some movie, use Image.resolveAssetSource(module).uri.
+    // After reloading the JS bundle, the app should show a warning with proper width and height
+    // set — 640 and 480.
+
+    // STEP 14
+    // Instead of warning the result, let's try updating the state with the new URI!
+
+    // STEP 16
+    // Now you should be able tinker around with the first argument to the
+    // generateThumbnailAsync method — passing null, "imnotaurl" or
+    // Image.resolveAssetSource(require("./assets/sample_thumbnail.jpg")).uri
+    // should all not show an error, but rather a warning with a "Unhandled Promise rejection"
+    // with a descriptive message. Hooray for clear error messages!
+
+    // STEP 18
+    // Change the second argument to the generateThumbnailAsync to an object containing
+    // an object under maximumSize key that will specify some width or height constraints!
+    // If you set maximum width to 20 you should notice the difference in the image.
+    // If you haven't deleted the console.warn(result), you can also inspect the warning
+    // to verify whether the size returned is lower in both dimensions than requested.
+
+    // STEP 20
+    // Try changing the options dictionary to include a value for `timeMs` key.
+    // Does every value change produce a different image?
   }
 
   render() {
