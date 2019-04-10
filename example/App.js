@@ -27,19 +27,12 @@ export default class App extends Component<Props> {
   async componentDidMount() {
     const { uri } = await generateThumbnailAsync();
     this.setState({ uri });
-    // STEP 6
-    // Call the sampleMethod method on our native module.
-    // As the third argument, pass in a function
-    // that will log the arguments. I would use console.warn,
-    // since the result will be immediately visible on the phone.
-    //
-    // Calling native methods looks like:
-    // NativeModules.ModuleName.methodName(arguments)
-    // `ModuleName` comes from the RCT_EXPORT_MODULE macro we looked
-    // at in step 1.
-    //
-    // A warning with "Hello from the native side!" should be visible
-    // on the phone.
+
+    NativeModules.AJVideoThumbnailer.sampleMethod(
+      "Hello from JS side!",
+      42,
+      console.warn
+    );
 
     // STEP 9
     // Now call the newly created generateThumbnailAsync method and
