@@ -1,7 +1,12 @@
 import React, { Component } from "react";
-// STEP 5
-// Import NativeModules from react-native.
-import { Platform, StyleSheet, Text, View, Image } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  NativeModules
+} from "react-native";
 
 const generateThumbnailAsync = () =>
   Promise.resolve(
