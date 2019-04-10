@@ -44,6 +44,7 @@ RCT_EXPORT_METHOD(generateThumbnailAsync:(NSString *)urlString options:(NSDictio
   CMTime time = CMTimeMake(1, 1);
   if (options && [options[@"time"] isKindOfClass:[NSNumber class]]) {
     time = CMTimeMake([options[@"time"] doubleValue], 1000);
+    time = CMTimeClampToRange(time, CMTimeRangeMake(kCMTimeZero, asset.duration));
   }
 
   NSError *error;
@@ -74,18 +75,4 @@ RCT_EXPORT_METHOD(generateThumbnailAsync:(NSString *)urlString options:(NSDictio
             });
 }
 
-// STEP 22
-// We can do even better than this! Notice how if you provide a negative value for the timeMs
-// or a too big value (30000 for our sample movie) the promise rejects with some cryptic
-// "This media cannot be used" error? Let's fix this.
-//
-// We could either throw an error if the requested time is invalid or try to use the best
-// available time for the given parameter. The former is more verbose, but the latter
-// is more fail-resistant and allows for some logic herusitics, like eg. using some big timeMS
-// to always get the last frame of the video. I would prefer the latter approach.
-//
-// CoreMedia, which is the media framework on iOS, contains a really nice functions
-// that will help us ensure that the time will make sense. In this step, try using CMTimeRangeMake
-// and CMTimeClampToRange functions to ensure that the time for which we'll try to generate
-// a thumbnail is between 0 and asset.duration.
 @end
