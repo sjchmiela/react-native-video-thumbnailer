@@ -4,36 +4,9 @@
 
 RCT_EXPORT_MODULE()
 
-// STEP 2
-// methodQueue is a method which defines on which queue methods should be invoked.
-// This implementation specifies the main queue as the one. The code with which
-// we'll generate a thumbnail doesn't need to be run on the main queue, so
-// we definietely don't want to block it while generating the thumbnail.
-//
-// By removing the method altogether we would execute the methods on a serial
-// queue shared between native modules. In fact, since access to disk may be slow,
-// we would rather execute all thumbnail-generating methods on a separate queue.
-// Let's change implementation of this method so it creates a new queue when called.
-// (You'll need to use dispatch_queue_create method
-// https://developer.apple.com/documentation/dispatch/1453030-dispatch_queue_create
-// ).
-//
-// There is another module in React Native that utilizies this mechanism
-// to execute code on a separate thread — RCTAsyncLocalStorage.
-// It creates its queue like at:
-// https://github.com/facebook/react-native/blob/2d8ad076feec75911f5b0a95555cc961c714d0a5/React/Modules/RCTAsyncLocalStorage.m#L128
-// We can do something similar here, but
-// - we should change the first argument to something more module-specific
-//   like eg. "edu.appjs.videothumbnailer.AJVideoThumbnailer"
-// - we could generate multiple thumbnails at the same time, so instead of
-//   DISPATCH_QUEUE_SERIAL we can use DISPATCH_QUEUE_CONCURRENT.
-//
-// Read more on RN's threading at https://facebook.github.io/react-native/docs/native-modules-ios#threading
-// More info on dispatch queues on iOS can be found at
-// https://developer.apple.com/library/archive/documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html
 - (dispatch_queue_t)methodQueue
 {
-    return dispatch_get_main_queue();
+  return dispatch_queue_create("edu.appjs.videothumbnailer.AJVideoThumbnailer", DISPATCH_QUEUE_CONCURRENT);
 }
 
 // STEP 3
