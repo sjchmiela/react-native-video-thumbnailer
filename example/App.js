@@ -38,10 +38,7 @@ export default class App extends Component<Props> {
       Image.resolveAssetSource(require("./assets/sample.mov")).uri,
       {}
     );
-    console.warn(result);
-
-    // STEP 14
-    // Instead of warning the result, let's try updating the state with the new URI!
+    this.setState({ uri: result.uri });
 
     // STEP 16
     // Now you should be able tinker around with the first argument to the
