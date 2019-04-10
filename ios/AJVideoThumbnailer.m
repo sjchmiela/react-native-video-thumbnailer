@@ -14,15 +14,10 @@ RCT_EXPORT_METHOD(sampleMethod:(NSString *)stringArgument numberParameter:(nonnu
   callback(@[@"Hello from the native side!"]);
 }
 
-// STEP 7
-// Another way to share some results to JS is to create a native method which will return a Promise.
-// For a native method to be Promise-based, as two last native arguments it must accept:
-// RCTPromiseResolveBlock and RCTPromiseRejectBlock. As the types names suggest, the first is the block
-// one would call if the JS Promise should be resolved and the second one if it should be rejected.
-//
-// More information on this type of native methods can be found at
-// https://github.com/facebook/react-native/blob/ff66600224e78fec5d0e902f8a035b78ed31a961/React/Base/RCTBridgeModule.h#L154-L171
-// Create a new exported method `generateThumbnailAsync`, which will accept two arguments: an NSString * and an NSDictionary *.
+RCT_EXPORT_METHOD(generateThumbnailAsync:(NSString *)urlString options:(NSDictionary *)options resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
+{
+
+}
 
 // STEP 8
 // Inside the method, resolve the promise (i. e. call the resolve block) with an object { uri: null, width: 0, height: 0 }.
