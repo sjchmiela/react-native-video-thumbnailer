@@ -28,17 +28,10 @@ RCT_EXPORT_METHOD(generateThumbnailAsync:(NSString *)urlString options:(NSDictio
 
   resolve(@{
             @"uri": [NSNull null],
-            @"width": @(0),
-            @"height": @(0)
+            @"width": @(thumbnail.size.width),
+            @"height": @(thumbnail.size.height)
             });
 }
-
-// STEP 11
-// Although our project would compile now, the thumbnail we generated is ignored (as Xcode suggests).
-// A simple test it works will be returning the thumbnail's size to JS.
-//
-// Instead of @(0), return the actual size of the thumbnail to JS. The size can be obtained
-// from .size property of the UIImage (so, thumbnail.size.width or thumbnail.size.height).
 
 // STEP 13
 // Width and height are set, now let's take care of the last piece — the uri.
