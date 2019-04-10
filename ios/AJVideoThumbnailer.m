@@ -11,14 +11,7 @@ RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(sampleMethod:(NSString *)stringArgument numberParameter:(nonnull NSNumber *)numberArgument callback:(RCTResponseSenderBlock)callback)
 {
-    // TODO: Implement
-  // STEP 4
-  // Add an implementation to this method that will return a "Hello from the native side!" to JS
-  // with the `callback` callback. RCTResponseSenderBlock expects a single argument — an array
-  // which will be used as the arguments array passed to the JS function.
-  //
-  // Note that in Objective-C a shorthand to create for an array is @[…elements…],
-  // and to create a string you would write @"…string…".
+  callback(@[@"Hello from the native side!"]);
 }
 
 // STEP 7
