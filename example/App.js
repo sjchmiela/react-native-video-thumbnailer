@@ -36,13 +36,9 @@ export default class App extends Component<Props> {
 
     const result = await NativeModules.AJVideoThumbnailer.generateThumbnailAsync(
       Image.resolveAssetSource(require("./assets/sample.mov")).uri,
-      { maximumSize: { width: 20 } }
+      { timeMs: 18000 }
     );
     this.setState({ uri: result.uri });
-
-    // STEP 20
-    // Try changing the options dictionary to include a value for `timeMs` key.
-    // Does every value change produce a different image?
   }
 
   render() {
